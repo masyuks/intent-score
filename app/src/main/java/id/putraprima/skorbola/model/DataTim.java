@@ -1,5 +1,6 @@
 package id.putraprima.skorbola.model;
 
+
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,10 +8,11 @@ import android.os.Parcelable;
 public class DataTim implements Parcelable {
     private String homeName;
     private String awayName;
-    private Uri homeLogo;
-    private Uri awayLogo;
+    private String homeLogo;
+    private String awayLogo;
 
-    public DataTim(String homeName, String awayName, Uri homeLogo, Uri awayLogo) {
+
+    public DataTim(String homeName, String awayName, String homeLogo, String awayLogo) {
         this.homeName = homeName;
         this.awayName = awayName;
         this.homeLogo = homeLogo;
@@ -33,21 +35,22 @@ public class DataTim implements Parcelable {
         this.awayName = awayName;
     }
 
-    public Uri getHomeLogo() {
+    public String getHomeLogo() {
         return homeLogo;
     }
 
-    public void setHomeLogo(Uri homeLogo) {
+    public void setHomeLogo(String homeLogo) {
         this.homeLogo = homeLogo;
     }
 
-    public Uri getAwayLogo() {
+    public String getAwayLogo() {
         return awayLogo;
     }
 
-    public void setAwayLogo(Uri awayLogo) {
+    public void setAwayLogo(String awayLogo) {
         this.awayLogo = awayLogo;
     }
+
 
     @Override
     public int describeContents() {
@@ -58,14 +61,15 @@ public class DataTim implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.homeName);
         dest.writeString(this.awayName);
-    }
-
-    public DataTim() {
+        dest.writeString(this.homeLogo);
+        dest.writeString(this.awayLogo);
     }
 
     protected DataTim(Parcel in) {
         this.homeName = in.readString();
         this.awayName = in.readString();
+        this.homeLogo = in.readString();
+        this.awayLogo = in.readString();
     }
 
     public static final Creator<DataTim> CREATOR = new Creator<DataTim>() {

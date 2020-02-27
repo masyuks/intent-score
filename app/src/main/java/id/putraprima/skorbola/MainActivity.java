@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     @NotEmpty
     private ImageView awayLogoPict;
 
-    private Uri homeLogo;
-    private Uri awayLogo;
+    private String homeLogo;
+    private String awayLogo;
 
 
     @Override
@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (requestCode){
             case REQUEST_CODE_HOME:
-                homeLogo = data.getData();
-                setImage(homeLogoPict, homeLogo);
+                homeLogo = data.getDataString();
+                setImage(homeLogoPict, data.getData());
                 break;
             case REQUEST_CODE_AWAY:
-                awayLogo = data.getData();
-                setImage(awayLogoPict, awayLogo);
+                awayLogo = data.getDataString();
+                setImage(awayLogoPict, data.getData());
                 break;
         }
     }
@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
     public void handleNext(View view) {
         String homeName = homeNameInput.getText().toString();
         String awayName = awayNameInput.getText().toString();
+
+        Log.d("Main", "onActivityResult away=: "+ awayLogo.toString());
+        Log.d("Main", "onActivityResult home=: "+ homeLogo.toString());
 
         Intent intent = new Intent(this, MatchActivity.class);
         intent.putExtra(EXTRA_DATA, new DataTim(homeName, awayName, homeLogo, awayLogo));

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,8 +26,8 @@ public class MatchActivity extends AppCompatActivity {
 
     private TextView homeNameText;
     private TextView awayNameText;
-    private ImageView homeLogo;
-    private ImageView awayLogo;
+    private ImageView homeLogoPict;
+    private ImageView awayLogoPict;
     private DataTim tim;
     private TextView homeScoreText;
     private TextView awayScoreText;
@@ -40,29 +41,24 @@ public class MatchActivity extends AppCompatActivity {
 
         homeNameText = findViewById(R.id.txt_home);
         awayNameText = findViewById(R.id.txt_away);
+        homeLogoPict = findViewById(R.id.home_logo);
+        awayLogoPict = findViewById(R.id.away_logo);
 
         Intent extras = getIntent();
         if (extras != null) {
             tim = extras.getParcelableExtra(EXTRA_DATA);
             homeNameText.setText(tim.getHomeName());
             awayNameText.setText(tim.getAwayName());
-            homeLogo = findViewById(R.id.home_logo);
-            awayLogo = findViewById(R.id.away_logo);
-            setImage(homeLogo, tim.getHomeLogo());
-            setImage(awayLogo, tim.getAwayLogo());
-        }
-        //TODO
-        //1.Menampilkan detail match sesuai data dari main activity
-        //2.Tombol add score menambahkan satu angka dari angka 0, setiap kali di tekan
-        //3.Tombol Cek Result menghitung pemenang dari kedua tim dan mengirim nama pemenang ke ResultActivity, jika seri di kirim text "Draw"
-    }
-
-    private void setImage(ImageView view, Uri uri) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            view.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Toast.makeText(this, "Can't load image", Toast.LENGTH_SHORT).show();
+            try {
+                Log.d("Main", "onActivityResult home=: "+ tim.getHomeLogo().toString());
+                Log.d("Main", "onActivityResult away=: "+ tim.getAwayLogo().toString());
+                Bitmap homeLogo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(tim.getHomeLogo()));
+                Bitmap awayLogo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(tim.getAwayLogo()));
+                awayLogoPict.setImageBitmap(awayLogo);
+                homeLogoPict.setImageBitmap(homeLogo);
+            } catch (IOException e) {
+                Toast.makeText(this, "Can't load image", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
